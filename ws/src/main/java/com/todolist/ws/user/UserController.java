@@ -21,13 +21,20 @@ public class UserController {
 
   @PostMapping(value = "/api/v1/users")
   ResponseEntity<?> createUser(@RequestBody User user) {
+    ApiError apiError = new ApiError();
+    apiError.setPath("/api/v1/users");
+    apiError.setMessage("Validation error");
+    apiError.setStatus(400);
+    Map<String, String> validationError = new HashMap<>();
     if (user.getUsername() == null || user.getUsername().isEmpty()) {
-      ApiError apiError = new ApiError();
-      apiError.setPath("/api/v1/users");
-      apiError.setMessage("Validation error");
-      apiError.setStatus(400);
-      Map<String, String> validationError = new HashMap<>();
       validationError.put("username", "Username connot be null.");
+    }
+
+    if (user.getEmail() == null || user.getEmail().isEmpty()) {
+      validationError.put("email", "E-mail connot be null.");
+    }
+
+    if(validationError.size() > 0) {
       apiError.setValidationErrors(validationError);
       return ResponseEntity.badRequest().body(apiError);
     }

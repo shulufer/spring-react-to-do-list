@@ -8,13 +8,13 @@ export function SignUp() {
   const [email, setEmail] = useState()
   const [password, setPassword] = useState()
   const [passwordRepeat, setPasswordRepeat] = useState()
-  const [apiProgress, setApiProgress] = useState(false); // baslangic durumunda false
-  const [successMessage, setSuccessMessage] = useState(); // kullaniya mesaj gostermek icin
+  const [apiProgress, setApiProgress] = useState(false);
+  const [successMessage, setSuccessMessage] = useState();
 
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    setApiProgress(true); // form submit edildiginde bu trueya cekildi.
+    setApiProgress(true);
     try {
       const response = await signUp({
         username,
@@ -56,14 +56,14 @@ export function SignUp() {
           </div>
           <div>
             {successMessage && <div className="alert alert-secondary" role="alert"> {successMessage} </div>}
-            {/* kullanilci yaratilmissa msj gostermesi icin. successmessage var ise goster. backenden gelen responeseyi isleyip gosteriyoruz. */}
+
           </div>
           <button className="btn btn-primary" disabled={apiProgress || (!password || password !== passwordRepeat || !username || !email)}>
               {apiProgress && <span className="spinner-border spinner-border-sm" aria-hidden="true"></span>}
-              {/* Ekrana loading gozukmesi icin yaptik. api progres true ise sag blok calisicak anlamina geliyor. */}
+
             Sign Up
           </button>
-          {/* butona ekledikform submit olursa disadble olsun diye */}
+
         </div>
       </form>
     </div>

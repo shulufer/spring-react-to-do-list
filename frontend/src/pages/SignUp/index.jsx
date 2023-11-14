@@ -12,6 +12,7 @@ export function SignUp() {
   const [apiProgress, setApiProgress] = useState(false);
   const [successMessage, setSuccessMessage] = useState();
   const [errors, setErrors] = useState({});
+  const [generalError, setGeneralError] = useState();
 
   useEffect(() => {
     setErrors({})
@@ -20,6 +21,8 @@ export function SignUp() {
 
   const onSubmit = async (event) => {
     event.preventDefault();
+    setSuccessMessage();
+    setGeneralError();
     setApiProgress(true);
     try {
       const response = await signUp({
@@ -36,7 +39,7 @@ export function SignUp() {
           console.error("Unexpected error:", axiosError);
         }
       } else {
-        console.error("Unexpected error:", axiosError);
+        setGeneralError("Unexpected error occured. Pleas try again.")
       }
     } finally {
       setApiProgress(false)
@@ -79,9 +82,9 @@ export function SignUp() {
             </div>
             <div>
               {successMessage && <div className="alert alert-secondary" role="alert"> {successMessage} </div>}
-
+              {generalError && <div className="alert alert-danger" role="alert"> {generalError} </div>}
             </div>
-            <button className="btn btn-primary" disabled={apiProgress || (!password || password !== passwordRepeat || !email)}>
+            <button className="btn btn-primary" disabled={apiProgress || (!password || password !== passwordRepeat)}>
               {apiProgress && <span className="spinner-border spinner-border-sm" aria-hidden="true"></span>}
 
               Sign Up

@@ -1,5 +1,6 @@
 import { useState } from "react";
-import axios from "axios";
+import { signUp } from "./api";
+
 
 export function SignUp() {
 
@@ -11,17 +12,22 @@ export function SignUp() {
   const [successMessage, setSuccessMessage] = useState(); // kullaniya mesaj gostermek icin
 
 
-  const onSubmit = (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault();
     setApiProgress(true); // form submit edildiginde bu trueya cekildi.
-    axios.post('/api/v1/users', {
-      username,
-      email,
-      password
-    }).then((response) => { //reponsemiz sonrasinda msji alip successMessage olarak kayit ediyoruz.
+    try {
+      const response = await signUp({
+        username,
+        email,
+        password
+      })
       setSuccessMessage(response.data.message)
-    })
-    .finally(() => setApiProgress(false)) //loading kapatmak icin request islemi bitince apiProgresi true yapiyoruz.
+    } catch (error) {
+      console.log('i will continue')
+    } finally {
+      setApiProgress(false)
+    }
+
   }
 
   return (

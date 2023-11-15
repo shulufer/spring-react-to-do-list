@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.todolist.ws.error.ApiError;
 import com.todolist.ws.shared.GenericMessage;
 
+import jakarta.validation.Valid;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,7 +22,7 @@ public class UserController {
   UserService userService;
 
   @PostMapping(value = "/api/v1/users")
-  ResponseEntity<?> createUser(@RequestBody User user) {
+  ResponseEntity<?> createUser(@Valid @RequestBody User user) {
     ApiError apiError = new ApiError();
     apiError.setPath("/api/v1/users");
     apiError.setMessage("Validation error");

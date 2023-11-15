@@ -1,22 +1,37 @@
 // import axios from "axios";
 import { useEffect, useState } from "react";
 import { signUp } from "./api";
+import { Input } from "./components/input";
 
 
 export function SignUp() {
 
-  const [username, setUsername] = useState()
-  const [email, setEmail] = useState()
-  const [password, setPassword] = useState()
-  const [passwordRepeat, setPasswordRepeat] = useState()
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordRepeat, setPasswordRepeat] = useState("");
   const [apiProgress, setApiProgress] = useState(false);
   const [successMessage, setSuccessMessage] = useState();
   const [errors, setErrors] = useState({});
   const [generalError, setGeneralError] = useState();
 
-  useEffect(() => {
-    setErrors({})
+  useEffect(() => { //username bir sey yazdigimda usernamede bulunan hata gidiyor.
+    setErrors(function (lastErrors) {
+      return {
+        ...lastErrors,
+        username: undefined
+      }
+    })
   }, [username])
+
+  useEffect(() => { //email bir sey yazdigimda emailde bulunan hata gidiyor.
+    setErrors(function (lastErrors) {
+      return {
+        ...lastErrors,
+        email: undefined
+      }
+    })
+  }, [email])
 
 
   const onSubmit = async (event) => {
@@ -55,38 +70,18 @@ export function SignUp() {
             <h1> Sign Up </h1>
           </div>
           <div className="card-body">
-            <div className="mb-3">
-              <label htmlFor="username" className="form-label">Username: </label>
-              <input id="username" className={errors.username ? "form-control is-invalid" : "form-control"}
-                onChange={(event) => {
-                  setUsername(event.target.value)
-                  // setErrors({})
-                }
-                }
-              />
-              <div className="mt-2 invalid-feedback" role="alert">
-                {errors.username}
-              </div>
-            </div>
-            <div className="mb-3">
-              <label htmlFor="email" className="form-label">E-mail: </label>
-              <input id="email" className="form-control" onChange={(event) => setEmail(event.target.value)} />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="password" className="form-label">Password: </label>
-              <input id="password" className="form-control" type="password" onChange={(event) => setPassword(event.target.value)} />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="passwordRepeat" className="form-label">Password Repeat: </label>
-              <input id="passwordRepeat" className="form-control" type="password" onChange={(event) => setPasswordRepeat(event.target.value)} />
-            </div>
+            <Input id="username" label="Username" error={errors.username} onChange={(event) => setUsername(event.target.value)} />
+            <Input id="email" label="E-mail" error={errors.email} onChange={(event) => setEmail(event.target.value)} />
+            <Input id="password" label="Password" error={errors.password} onChange={(event) => setPassword(event.target.value)} />
+            <Input id="passwordRepeat" label="Password Repeat" error={errors.password} onChange={(event) => setPasswordRepeat(event.target.value)} />
+
             <div>
               {successMessage && <div className="alert alert-secondary" role="alert"> {successMessage} </div>}
               {generalError && <div className="alert alert-danger" role="alert"> {generalError} </div>}
             </div>
+
             <button className="btn btn-primary" disabled={apiProgress || (!password || password !== passwordRepeat)}>
               {apiProgress && <span className="spinner-border spinner-border-sm" aria-hidden="true"></span>}
-
               Sign Up
             </button>
 

@@ -15,7 +15,7 @@ export function SignUp() {
   const [errors, setErrors] = useState({});
   const [generalError, setGeneralError] = useState();
 
-  useEffect(() => { //username bir sey yazdigimda usernamede bulunan hata gidiyor.
+  useEffect(() => {
     setErrors(function (lastErrors) {
       return {
         ...lastErrors,
@@ -24,7 +24,7 @@ export function SignUp() {
     })
   }, [username])
 
-  useEffect(() => { //email bir sey yazdigimda emailde bulunan hata gidiyor.
+  useEffect(() => {
     setErrors(function (lastErrors) {
       return {
         ...lastErrors,
@@ -32,6 +32,15 @@ export function SignUp() {
       }
     })
   }, [email])
+
+  useEffect(() => {
+    setErrors(function (lastErrors) {
+      return {
+        ...lastErrors,
+        password: undefined
+      }
+    })
+  }, [password])
 
 
   const onSubmit = async (event) => {
@@ -72,8 +81,8 @@ export function SignUp() {
           <div className="card-body">
             <Input id="username" label="Username" error={errors.username} onChange={(event) => setUsername(event.target.value)} />
             <Input id="email" label="E-mail" error={errors.email} onChange={(event) => setEmail(event.target.value)} />
-            <Input id="password" label="Password" error={errors.password} onChange={(event) => setPassword(event.target.value)} />
-            <Input id="passwordRepeat" label="Password Repeat" error={errors.password} onChange={(event) => setPasswordRepeat(event.target.value)} />
+            <Input id="password" label="Password" error={errors.password} onChange={(event) => setPassword(event.target.value)} type="password" />
+            <Input id="passwordRepeat" label="Password Repeat" error={errors.password} onChange={(event) => setPasswordRepeat(event.target.value)} type="password" />
 
             <div>
               {successMessage && <div className="alert alert-secondary" role="alert"> {successMessage} </div>}

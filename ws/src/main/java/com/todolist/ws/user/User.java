@@ -5,7 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.*;
 
 @Entity
 @Table(name = "users")
@@ -16,12 +16,18 @@ public class User {
   long id;
 
   @NotBlank
+  @Size(min = 4, max = 32)
   String username;
 
   @NotBlank
+  @Email
   String email;
 
-  String password;
+  @Pattern(
+    regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$",
+    message = "Your password must contain at least one uppercase letter, one lowercase letter, one number."
+    )
+    String password;
 
 
   public String getUsername() {

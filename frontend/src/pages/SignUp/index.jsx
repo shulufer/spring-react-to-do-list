@@ -1,5 +1,5 @@
 // import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { signUp } from "./api";
 import { Input } from "./components/input";
 
@@ -14,6 +14,8 @@ export function SignUp() {
   const [successMessage, setSuccessMessage] = useState();
   const [errors, setErrors] = useState({});
   const [generalError, setGeneralError] = useState();
+
+
 
   useEffect(() => {
     setErrors(function (lastErrors) {
@@ -41,6 +43,14 @@ export function SignUp() {
       }
     })
   }, [password])
+
+  const passwordRepeatError = useMemo(() => {
+    if (password && password !== passwordRepeat) {
+      console.log("always runnig");
+      return "Password missmatch"
+    }
+    return "";
+  }, [password, passwordRepeat])
 
 
   const onSubmit = async (event) => {
@@ -82,7 +92,8 @@ export function SignUp() {
             <Input id="username" label="Username" error={errors.username} onChange={(event) => setUsername(event.target.value)} />
             <Input id="email" label="E-mail" error={errors.email} onChange={(event) => setEmail(event.target.value)} />
             <Input id="password" label="Password" error={errors.password} onChange={(event) => setPassword(event.target.value)} type="password" />
-            <Input id="passwordRepeat" label="Password Repeat" error={errors.password} onChange={(event) => setPasswordRepeat(event.target.value)} type="password" />
+            <Input id="passwordRepeat" label="Password Repeat" error={passwordRepeatError} onChange={(event) => setPasswordRepeat(event.target.value)} type="password" />
+
 
             <div>
               {successMessage && <div className="alert alert-secondary" role="alert"> {successMessage} </div>}

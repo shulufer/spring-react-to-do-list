@@ -1,14 +1,17 @@
 package com.todolist.ws.user;
 
 
+import com.todolist.ws.user.validation.UniqueEmail;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.*;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = {"email"}))
 public class User {
 
   @Id
@@ -21,6 +24,7 @@ public class User {
 
   @NotBlank
   @Email
+  @UniqueEmail
   String email;
 
   @Pattern(

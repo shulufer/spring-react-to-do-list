@@ -18,7 +18,7 @@ public class User {
   @GeneratedValue
   long id;
 
-  @NotBlank
+  @NotBlank(message = "{todolist.constraints.NotBlank.message}")
   @Size(min = 4, max = 32)
   String username;
 
@@ -29,7 +29,7 @@ public class User {
 
   @Pattern(
     regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$",
-    message = "Your password must contain at least one uppercase letter, one lowercase letter, one number."
+    message = "{todolist.constraints.Pattern.message}"
     )
     String password;
 
